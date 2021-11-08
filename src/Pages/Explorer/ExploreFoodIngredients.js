@@ -1,14 +1,14 @@
 import React from 'react';
 import Footer from '../../components/Footer';
 
-function Food() {
+function ExploreFoodIngredient() {
   return (
     <div>
-      Foods
+      Explore Food Ingredients
       <Footer />
     </div>
 
   );
 }
 
-export default Food;
+export default ExploreFoodIngredient;
