@@ -1,12 +1,10 @@
 import React from 'react';
+import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
 
-function doneRecipes() {
-  return (
-    <div>
-      Not Found
-    </div>
+const DoneRecipes = () => (
+  <div>
+    <HeaderWithoutSearch page="Receitas Feitas" />
+  </div>
+);
 
-  );
-}
-
-export default doneRecipes;
+export default DoneRecipes;

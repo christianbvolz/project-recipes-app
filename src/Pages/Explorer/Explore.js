@@ -1,14 +1,12 @@
 import React from 'react';
 import Footer from '../../components/Footer';
+import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
 
-function Explore() {
-  return (
-    <div>
-      Explore
-      <Footer />
-    </div>
-
-  );
-}
+const Explore = () => (
+  <div>
+    <HeaderWithoutSearch page="Explorar" />
+    <Footer />
+  </div>
+);
 
 export default Explore;
