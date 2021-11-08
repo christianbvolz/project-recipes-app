@@ -26,11 +26,13 @@ function Login() {
       <input
         type="email"
         data-testid="email-input"
+        placeholder="Email"
         onChange={ (e) => setEmail(e.target.value) }
       />
       <input
         type="password"
         data-testid="password-input"
+        placeholder="Password"
         onChange={ (e) => setPassword(e.target.value) }
       />
       <button

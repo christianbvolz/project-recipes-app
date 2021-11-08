@@ -1,12 +1,10 @@
 import React from 'react';
+import HeaderWithoutSearch from '../../components /HeaderNoSearchInput';
 
-function ExploreDrink() {
-  return (
-    <div>
-      Explore Drink
-    </div>
+const ExploreDrinks = () => (
+  <div>
+    <HeaderWithoutSearch page="Explorar Bebidas" />
+  </div>
+);
 
-  );
-}
-
-export default ExploreDrink;
+export default ExploreDrinks;
