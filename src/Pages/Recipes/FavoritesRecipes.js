@@ -1,12 +1,10 @@
 import React from 'react';
+import HeaderWithoutSearch from '../../components /HeaderNoSearchInput';
 
-function FavoriteRecipes() {
-  return (
-    <div>
-      FavoriteRecipes
-    </div>
-
-  );
-}
+const FavoriteRecipes = () => (
+  <div>
+    <HeaderWithoutSearch page="Receitas Favoritas" />
+  </div>
+);
 
 export default FavoriteRecipes;

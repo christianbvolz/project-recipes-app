@@ -1,10 +1,10 @@
 import React from 'react';
 import HeaderWithoutSearch from '../../components /HeaderNoSearchInput';
 
-const DoneRecipes = () => (
+const Profile = () => (
   <div>
-    <HeaderWithoutSearch page="Receitas Feitas" />
+    <HeaderWithoutSearch page="Perfil" />
   </div>
 );
 
-export default DoneRecipes;
+export default Profile;

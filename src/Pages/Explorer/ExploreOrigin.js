@@ -1,12 +1,10 @@
 import React from 'react';
+import Header from '../../components /Header';
 
-function ExploreOrigin() {
-  return (
-    <div>
-      Explore Origin
-    </div>
-
-  );
-}
+const ExploreOrigin = () => (
+  <div>
+    <Header page="Explorar Origem" />
+  </div>
+);
 
 export default ExploreOrigin;
