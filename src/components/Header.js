@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SearchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
+import allContext from '../Context/context';
 
 const Header = ({ page }) => {
   const [searchBar, showSearchbar] = useState(false);
+
+  const { hadlechange } = useContext(allContext);
 
   if (searchBar) {
     return (
@@ -22,7 +25,10 @@ const Header = ({ page }) => {
           />
         </button>
         <label htmlFor="searchBar">
-          <input data-testid="search-input" />
+          <input
+            onChange={ (e) => hadlechange(e.target.value) }
+            data-testid="search-input"
+          />
         </label>
       </header>
     );
