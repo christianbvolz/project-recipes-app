@@ -1,9 +1,11 @@
 import React from 'react';
-import HeaderWithoutSearch from '../../components /HeaderNoSearchInput';
+import Footer from '../../components/Footer';
+import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
 
 const ExploreDrinks = () => (
   <div>
     <HeaderWithoutSearch page="Explorar Bebidas" />
+    <Footer />
   </div>
 );
 

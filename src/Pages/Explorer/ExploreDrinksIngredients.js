@@ -2,11 +2,12 @@ import React from 'react';
 import Footer from '../../components/Footer';
 import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
 
-const Explore = () => (
+const ExploreDrinksIngredient = () => (
   <div>
-    <HeaderWithoutSearch page="Explorar" />
+    <p>Explore Drinks Ingredients</p>
+    <HeaderWithoutSearch page="Explorar Ingredientes" />
     <Footer />
   </div>
 );
 
-export default Explore;
+export default ExploreDrinksIngredient;
