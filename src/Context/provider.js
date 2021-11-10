@@ -104,6 +104,8 @@ const ProviderContext = ({ children }) => {
     recipesDrinks,
     mealsCategories,
     drinksCategories,
+    setRecipesMeals,
+    setRecipesDrinks,
   };
 
   return (

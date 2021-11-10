@@ -3,12 +3,21 @@ import PropTypes from 'prop-types';
 import allContext from '../Context/context';
 
 export default function CategoriesFilter({ page }) {
-  const { mealsCategories, drinksCategories } = useContext(allContext);
+  const { mealsCategories,
+    drinksCategories,
+    setRecipesDrinks,
+    setRecipesMeals } = useContext(allContext);
 
   const getRecipesByCategory = async (categoryName) => {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
-    const responseJson = await response.json();
-    return responseJson;
+    if (page === 'Comidas') {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+      const responseJson = await response.json();
+      setRecipesMeals(responseJson);
+    } else {
+      const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+      const responseJson = await response.json();
+      setRecipesDrinks(responseJson);
+    }
   };
 
   const MaxCategories = 5;
