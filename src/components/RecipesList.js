@@ -14,7 +14,6 @@ export default function RecipesList({ page }) {
   const thumb = (page === 'Comidas') ? 'strMealThumb' : 'strDrinkThumb';
   const idRecipe = (page === 'Comidas') ? 'idMeal' : 'idDrink';
   const MaxRecipes = 12;
-  const alert = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
 
   const mapRecipes = () => {
     const id = recipes[type][0][idRecipe];
@@ -43,7 +42,6 @@ export default function RecipesList({ page }) {
     <div>
       { (Object.keys(recipes).length > 0) && recipes[type] !== null
       && mapRecipes()}
-      { global.alert(alert) }
     </div>
   );
 }
