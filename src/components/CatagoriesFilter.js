@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import allContext from '../Context/context';
 
 export default function CategoriesFilter({ page }) {
-  const { mealsCategories, drinksCategories, categoryFilter } = useContext(allContext);
+  const { mealsCategories, drinksCategories } = useContext(allContext);
 
   const getRecipesByCategory = async (categoryName) => {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
