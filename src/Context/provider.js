@@ -15,6 +15,8 @@ const ProviderContext = ({ children }) => {
   const [radio, setRadio] = useState('');
   const [recipesMeals, setRecipesMeals] = useState({});
   const [recipesDrinks, setRecipesDrinks] = useState({});
+  const [mealsCategories, setMealsCategories] = useState({});
+  const [drinksCategories, setDrinksCategories] = useState({});
 
   useEffect(() => {
     async function fetchMyAPI() {
@@ -24,6 +26,12 @@ const ProviderContext = ({ children }) => {
       const drinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
       const drinksJson = await drinks.json();
       setRecipesDrinks(drinksJson);
+      const mealsCategoriesList = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+      const mealsCategoriesListJson = await mealsCategoriesList.json();
+      setMealsCategories(mealsCategoriesListJson);
+      const drinksCategoriesList = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+      const drinksCategoriesListJson = await drinksCategoriesList.json();
+      setDrinksCategories(drinksCategoriesListJson);
     }
 
     fetchMyAPI();
@@ -80,6 +88,8 @@ const ProviderContext = ({ children }) => {
     filterPrimary,
     recipesMeals,
     recipesDrinks,
+    mealsCategories,
+    drinksCategories,
   };
 
   return (
