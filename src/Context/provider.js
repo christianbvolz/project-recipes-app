@@ -16,6 +16,8 @@ const ProviderContext = ({ children }) => {
   const [recipesMeals, setRecipesMeals] = useState({});
   const [recipesDrinks, setRecipesDrinks] = useState({});
 
+  const alert = 'Sinto muito, não encontramos nenhuma receita para esses filtros.';
+
   useEffect(() => {
     async function fetchMyAPI() {
       const meals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -28,6 +30,18 @@ const ProviderContext = ({ children }) => {
 
     fetchMyAPI();
   }, []);
+
+  useEffect(() => {
+    if (recipesMeals.meals === null) {
+      global.alert(alert);
+    }
+  }, [recipesMeals]);
+
+  useEffect(() => {
+    if (recipesDrinks.drinks === null) {
+      global.alert(alert);
+    }
+  }, [recipesDrinks]);
 
   const hadlechange = (valueInput) => setInputComida(valueInput);
   const hadleRadio = (valueRadio) => setRadio(valueRadio);
