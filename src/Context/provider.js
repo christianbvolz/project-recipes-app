@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import allContext from './context';
 import {
@@ -13,7 +13,21 @@ import {
 const ProviderContext = ({ children }) => {
   const [inputComida, setInputComida] = useState('');
   const [radio, setRadio] = useState('');
-  const [recipes, setRecipes] = useState({});
+  const [recipesMeals, setRecipesMeals] = useState({});
+  const [recipesDrinks, setRecipesDrinks] = useState({});
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const meals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      const mealsJson = await meals.json();
+      setRecipesMeals(mealsJson);
+      const drinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      const drinksJson = await drinks.json();
+      setRecipesDrinks(drinksJson);
+    }
+
+    fetchMyAPI();
+  }, []);
 
   const hadlechange = (valueInput) => setInputComida(valueInput);
   const hadleRadio = (valueRadio) => setRadio(valueRadio);
@@ -22,51 +36,50 @@ const ProviderContext = ({ children }) => {
     if (page === 'Comidas') {
       switch (radio) {
       case 'ingrediente':
-        setRecipes(await fetchApiIngredient(inputComida));
+        setRecipesMeals(await fetchApiIngredient(inputComida));
         break;
       case 'nome':
-        setRecipes(await fetchApiName(inputComida));
+        setRecipesMeals(await fetchApiName(inputComida));
         break;
       case 'primeira letra':
         if (inputComida.length > 1) {
           global.alert('Sua busca deve conter somente 1 (um) caracter');
         } else {
-          setRecipes(await fetchApiLatter(inputComida));
+          setRecipesMeals(await fetchApiLatter(inputComida));
         }
         break;
       default:
-        setRecipes(await fetchApiLatter('a'));
+        setRecipesMeals(await fetchApiLatter('a'));
         break;
       }
     } else if (page === 'Bebidas') {
       switch (radio) {
       case 'ingrediente':
-        setRecipes(await fetchApicocktailIngredient(inputComida));
+        setRecipesDrinks(await fetchApicocktailIngredient(inputComida));
         break;
       case 'nome':
-        setRecipes(await fetchApiCocktailName(inputComida));
+        setRecipesDrinks(await fetchApiCocktailName(inputComida));
         break;
       case 'primeira letra':
         if (inputComida.length > 1) {
           global.alert('Sua busca deve conter somente 1 (um) caracter');
         } else {
-          setRecipes(await fetchApiLatterCocktail(inputComida));
+          setRecipesDrinks(await fetchApiLatterCocktail(inputComida));
         }
         break;
       default:
-        setRecipes(await fetchApiLatterCocktail('a'));
+        setRecipesDrinks(await fetchApiLatterCocktail('a'));
         break;
       }
     }
   };
 
-  console.log(recipes.length);
-
   const stateGlobal = {
     hadleRadio,
     hadlechange,
     filterPrimary,
-    recipes,
+    recipesMeals,
+    recipesDrinks,
   };
 
   return (
