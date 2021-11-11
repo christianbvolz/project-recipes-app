@@ -4,8 +4,8 @@ import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
 import Footer from '../../components/Footer';
 
 function Profile() {
-  const history = useHistory();
   const { email } = JSON.parse(localStorage.getItem('user'));
+  const history = useHistory();
 
   const clearStorage = () => {
     localStorage.clear();
