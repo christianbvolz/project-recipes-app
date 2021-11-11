@@ -8,14 +8,15 @@ function Detailmeals() {
   const [recommended, setRecommended] = useState([]);
   const { idMeal } = useParams();
 
-  const fetch = async () => {
-    setDetail(await detailMeal(idMeal));
-    setRecommended(await recommendedMeal());
-  };
-
   const sliceItens = 6;
 
-  useEffect(() => { fetch(); }, []);
+  useEffect(() => {
+    const fetch = async () => {
+      setDetail(await detailMeal(idMeal));
+      setRecommended(await recommendedMeal());
+    };
+    fetch();
+  }, [idMeal]);
 
   const listIngredients = Object.keys(meal)
     .filter((item) => item.match(/strIngredient\d{1,2}/));

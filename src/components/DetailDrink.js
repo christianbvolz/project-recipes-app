@@ -8,12 +8,13 @@ function DetailDrink() {
   const [recommended, setRecommended] = useState([]);
   const { idDrink } = useParams();
 
-  const fetch = async () => {
-    setDrink(await detailDrink(idDrink));
-    setRecommended(await recommendedDrink());
-  };
-
-  useEffect(() => { fetch(); }, []);
+  useEffect(() => {
+    const fetch = async () => {
+      setDrink(await detailDrink(idDrink));
+      setRecommended(await recommendedDrink());
+    };
+    fetch();
+  }, [idDrink]);
 
   const sliceItens = 6;
 
