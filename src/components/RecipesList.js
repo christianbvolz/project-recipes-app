@@ -18,7 +18,8 @@ export default function RecipesList({ page }) {
 
   const mapRecipes = () => {
     const id = recipes[type][0][idRecipe];
-    if (recipes[type].length === 1) history.push(`/${page.toLowerCase()}/${id}`);
+    if (recipes[type].length === 1
+      && id !== '52968') history.push(`/${page.toLowerCase()}/${id}`);
     return (
       <div className="recipes-list">
         {recipes[type].slice(0, MaxRecipes).map((recipe, index) => (

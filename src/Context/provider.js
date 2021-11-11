@@ -104,8 +104,11 @@ const ProviderContext = ({ children }) => {
     recipesDrinks,
     mealsCategories,
     drinksCategories,
+    setRecipesMeals,
+    setRecipesDrinks,
   };
 
+  console.log(recipesMeals);
   return (
     <main>
       <allContext.Provider value={ stateGlobal }>{children}</allContext.Provider>
