@@ -14,7 +14,6 @@ export default function CategoriesFilter({ page }) {
   const MaxCategories = 5;
   const categories = (page === 'Comidas') ? mealsCategories : drinksCategories;
   const type = (page === 'Comidas') ? 'meals' : 'drinks';
-  console.log(categories);
   return (
     <div>
       { (Object.keys(categories).length > 0) && categories[type] !== null
