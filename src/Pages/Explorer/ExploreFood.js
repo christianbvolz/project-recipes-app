@@ -10,19 +10,19 @@ const ExploreFood = () => (
       data-testid="explore-by-ingredient"
       to="/explorar/comidas/ingredientes"
     >
-      Por Ingredientes
+      <button type="button">Por Ingredientes</button>
     </Link>
     <Link
       data-testid="explore-by-area"
       to="/explorar/comidas/area"
     >
-      Por Local de Origem
+      <button type="button">Por Local de Origem</button>
     </Link>
     <Link
       data-testid="explore-surprise"
       to="/comidas/52771"
     >
-      Me Surpreenda!
+      <button type="button">Me Surpreenda!</button>
     </Link>
     <Footer />
   </div>

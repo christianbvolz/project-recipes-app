@@ -10,13 +10,13 @@ const ExploreDrinks = () => (
       data-testid="explore-by-ingredient"
       to="/explorar/bebidas/ingredientes"
     >
-      Por Ingredientes
+      <button type="button">Por Ingredientes</button>
     </Link>
     <Link
       data-testid="explore-surprise"
       to="/bebidas/178319"
     >
-      Me Surpreenda!
+      <button type="button">Me Surpreenda!</button>
     </Link>
     <Footer />
   </div>
