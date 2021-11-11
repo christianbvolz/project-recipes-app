@@ -70,3 +70,10 @@ export const fetchApiDrinksCategoriesList = async () => {
   const response = await fetch(url).then((res) => res.json());
   return response;
 };
+
+export const fetchApiMealsAreaList = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/list.php?a=list';
+
+  const response = await fetch(url).then((res) => res.json());
+  return response;
+};
