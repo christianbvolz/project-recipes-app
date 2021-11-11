@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import allContext from '../Context/context';
-import { getRecipesByCategory } from '../services/fetchApi';
+import { getRecipesByCategory,
+  fetchApiAllMealsRecipes,
+  fetchApiAllDrinksRecipes } from '../services/fetchApi';
 
 export default function CategoriesFilter({ page }) {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -35,8 +37,20 @@ export default function CategoriesFilter({ page }) {
     }
   };
 
+  const setAllRecipes = async () => {
+    if (page === 'Comidas') setRecipes(await fetchApiAllMealsRecipes());
+    if (page === 'Bebidas') setRecipes(await fetchApiAllDrinksRecipes());
+  };
+
   return (
     <div>
+      <button
+        data-testid="All-category-filter"
+        type="button"
+        onClick={ setAllRecipes }
+      >
+        All
+      </button>
       { categories.map(({ strCategory }) => (
         <button
           data-testid={ `${strCategory}-category-filter` }

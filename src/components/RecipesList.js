@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import allContext from '../Context/context';
 import '../Style/RecipesList.css';
@@ -27,12 +27,14 @@ export default function RecipesList({ page }) {
             data-testid={ `${index}-recipe-card` }
             key={ recipe[idRecipe] }
           >
-            <p data-testid={ `${index}-card-name` }>{ recipe[name] }</p>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ recipe[thumb] }
-              alt={ recipe[name] }
-            />
+            <Link to={ `/${page.toLowerCase()}/${recipe[idRecipe]}` }>
+              <p data-testid={ `${index}-card-name` }>{ recipe[name] }</p>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ recipe[thumb] }
+                alt={ recipe[name] }
+              />
+            </Link>
           </div>
         ))}
       </div>
