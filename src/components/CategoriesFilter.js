@@ -17,6 +17,7 @@ export default function CategoriesFilter({ page }) {
   const type = (page === 'Comidas') ? 'meals' : 'drinks';
   const setRecipes = ((page === 'Comidas') ? setRecipesMeals : setRecipesDrinks);
   const allCategories = (page === 'Comidas') ? mealsCategories : drinksCategories;
+
   const categories = (Object.keys(allCategories).length > 0
     && allCategories[type] !== null)
     ? allCategories[type].slice(0, MaxCategories) : [];
