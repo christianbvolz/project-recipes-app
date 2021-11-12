@@ -77,3 +77,10 @@ export const fetchApiMealsAreaList = async () => {
   const response = await fetch(url).then((res) => res.json());
   return response;
 };
+
+export const fetchApiRecipesByArea = async (area) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`;
+
+  const response = await fetch(url).then((res) => res.json());
+  return response;
+};
