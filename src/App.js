@@ -3,9 +3,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProviderContext from './Context/provider';
 import Login from './Pages/Login';
 import Foods from './Pages/Meals/Foods';
-import Drinks from './Pages/Meals/Drinks';
+import Drinks from './Pages/Drinks/Drinks';
 import FoodDetails from './Pages/Meals/FoodDetails';
-import DrinkDetails from './Pages/Meals/DrinksDetails';
+import DrinkDetails from './Pages/Drinks/DrinksDetails';
 import Explore from './Pages/Explorer/Explore';
 import ExploreDrink from './Pages/Explorer/ExploreDrinks';
 import ExploreDrinksIngredient from './Pages/Explorer/ExploreDrinksIngredients';
@@ -26,8 +26,8 @@ function App() {
           <Route exact path="/" component={ Login } />
           <Route exact path="/comidas" component={ Foods } />
           <Route exact path="/bebidas" component={ Drinks } />
-          <Route exact path="/comidas/:id" component={ FoodDetails } />
-          <Route exact path="/bebidas/:id" component={ DrinkDetails } />
+          <Route exact path="/comidas/:idMeal" component={ FoodDetails } />
+          <Route exact path="/bebidas/:idDrink" component={ DrinkDetails } />
           <Route exact path="/comidas/:id/in-progress" component={ ProgressRecipes } />
           <Route exact path="/bebidas/:id/in-progress" component={ ProgressRecipes } />
           <Route exact path="/explorar" component={ Explore } />
