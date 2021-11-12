@@ -4,7 +4,11 @@ import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
 import Footer from '../../components/Footer';
 
 function Profile() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  let email = '';
+  if (JSON.parse(localStorage.getItem('user'))) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    email = user.email;
+  }
   const history = useHistory();
 
   const clearStorage = () => {
