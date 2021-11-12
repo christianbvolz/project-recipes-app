@@ -48,7 +48,7 @@ const Header = ({ page }) => {
           data-testid="search-top-btn"
         />
       </button>
-      <CategoriesFilter page={ page } />
+      {page !== 'Explorar Origem' && <CategoriesFilter page={ page } />}
     </header>
   );
 };

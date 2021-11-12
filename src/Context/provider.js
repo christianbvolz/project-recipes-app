@@ -8,6 +8,10 @@ import {
   fetchApicocktailIngredient,
   fetchApiCocktailName,
   fetchApiLatterCocktail,
+  fetchApiAllMealsRecipes,
+  fetchApiAllDrinksRecipes,
+  fetchApiMealsCategoriesList,
+  fetchApiDrinksCategoriesList,
 } from '../services/fetchApi';
 
 const ProviderContext = ({ children }) => {
@@ -22,18 +26,10 @@ const ProviderContext = ({ children }) => {
 
   useEffect(() => {
     async function fetchMyAPI() {
-      const meals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const mealsJson = await meals.json();
-      setRecipesMeals(mealsJson);
-      const drinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      const drinksJson = await drinks.json();
-      setRecipesDrinks(drinksJson);
-      const mealsCategoriesList = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-      const mealsCategoriesListJson = await mealsCategoriesList.json();
-      setMealsCategories(mealsCategoriesListJson);
-      const drinksCategoriesList = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-      const drinksCategoriesListJson = await drinksCategoriesList.json();
-      setDrinksCategories(drinksCategoriesListJson);
+      setRecipesMeals(await fetchApiAllMealsRecipes());
+      setRecipesDrinks(await fetchApiAllDrinksRecipes());
+      setMealsCategories(await fetchApiMealsCategoriesList());
+      setDrinksCategories(await fetchApiDrinksCategoriesList());
     }
 
     fetchMyAPI();
@@ -108,7 +104,6 @@ const ProviderContext = ({ children }) => {
     setRecipesDrinks,
   };
 
-  console.log(recipesMeals);
   return (
     <main>
       <allContext.Provider value={ stateGlobal }>{children}</allContext.Provider>
