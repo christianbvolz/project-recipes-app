@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { fetchApiMealsAreaList, fetchApiRecipesByArea } from '../services/fetchApi';
+import { fetchApiMealsAreaList,
+  fetchApiRecipesByArea,
+  fetchApiAllMealsRecipes } from '../services/fetchApi';
 import allContext from '../Context/context';
 
 export default function SelectArea() {
@@ -10,7 +12,7 @@ export default function SelectArea() {
     async function fetchMyAPI() {
       const { meals } = await fetchApiMealsAreaList();
       setAreaOptions(meals);
-      setRecipesMeals(await fetchApiRecipesByArea('American'));
+      setRecipesMeals(await fetchApiAllMealsRecipes());
     }
 
     fetchMyAPI();
@@ -20,10 +22,18 @@ export default function SelectArea() {
     <div>
       <select
         data-testid="explore-by-area-dropdown"
-        onChange={ async ({ target: { value } }) => (
-          setRecipesMeals(await fetchApiRecipesByArea(value))
-        ) }
+        onChange={ async ({ target: { value } }) => {
+          const func = (value === 'All') ? fetchApiAllMealsRecipes
+            : fetchApiRecipesByArea;
+          setRecipesMeals(await func(value));
+        } }
       >
+        <option
+          data-testid="All-option"
+          value="All"
+        >
+          All
+        </option>
         {areaOptions.map(({ strArea }) => (
           <option
             data-testid={ `${strArea}-option` }
