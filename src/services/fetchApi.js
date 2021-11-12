@@ -42,3 +42,15 @@ export const getRecipesByCategory = async (categoryName, page) => {
   const response = await fetch(url).then((res) => res.json());
   return response;
 };
+
+export const fetchApiIngredientMeals = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list';
+  const response = await fetch(url).then((res) => res.json());
+  return response;
+};
+
+export const fetchApiIngredientDrinks = async () => {
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
+  const response = await fetch(url).then((res) => res.json());
+  return response;
+};
