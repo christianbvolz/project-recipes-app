@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { detailMeal } from '../services/DetailFecht';
-import { recommendedMeal } from '../services/recommendedFech';
+import { recommendedDrink } from '../services/recommendedFech';
+import CarrouselRender from './Carousel';
 
 function Detailmeals() {
   const [meal, setDetail] = useState({});
@@ -13,7 +14,7 @@ function Detailmeals() {
   useEffect(() => {
     const fetch = async () => {
       setDetail(await detailMeal(idMeal));
-      setRecommended(await recommendedMeal());
+      setRecommended(await recommendedDrink());
     };
     fetch();
   }, [idMeal]);
@@ -40,17 +41,9 @@ function Detailmeals() {
 
   );
 
-  const carousel = (item, index) => (
-    <p
-      key={ index }
-      data-testid={ `${index}-recomendation-card` }
-    >
-      desenvolver recomendado
-    </p>
-  );
-
   if (meal.idMeal) {
     const idYouTube = meal.strYoutube.split('=');
+    const recommendedRec = recommended ? recommended.slice(0, sliceItens) : null;
     return (
       <>
         <img
@@ -74,8 +67,8 @@ function Detailmeals() {
           frameBorder="0"
           allowFullScreen
         />
-        { recommended.meals ? recommended.meals.slice(0, sliceItens)
-          .map((item, index) => carousel(item, index)) : null }
+        { recommended
+          ? <CarrouselRender recommendMeal={ recommendedRec } /> : null }
         <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
       </>
     );

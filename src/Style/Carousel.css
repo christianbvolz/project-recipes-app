@@ -1,0 +1,15 @@
+.containner-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-card {
+  height: 400px;
+  width: 400px;
+}
+
+.containner-carousel > button {
+  height: 200px;
+  margin: 10px;
+};
