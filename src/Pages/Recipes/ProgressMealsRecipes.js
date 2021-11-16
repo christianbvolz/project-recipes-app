@@ -8,8 +8,6 @@ function ProgressMealsRecipes() {
 
   useEffect(() => {
     const fetch = async () => {
-      const resp = await detailMeal(id);
-      console.log(resp);
       setRecipe(await detailMeal(id));
     };
     fetch();
@@ -32,6 +30,10 @@ function ProgressMealsRecipes() {
       data-testid={ `${i}-ingredient-step` }
       key={ i }
     >
+      <input
+        type="checkbox"
+        // onChange={ }
+      />
       { `${meal[ingredient]} - ${meal[listChavesMesure[i]]}` }
     </p>
   );

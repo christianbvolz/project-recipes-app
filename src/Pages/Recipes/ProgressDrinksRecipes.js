@@ -5,7 +5,6 @@ import { detailDrink } from '../../services/DetailFecht';
 function ProgressDrinksRecipes() {
   const [drink, setDrink] = useState({});
   const { id } = useParams();
-  console.log(drink);
 
   useEffect(() => {
     const fetch = async () => {
@@ -31,6 +30,10 @@ function ProgressDrinksRecipes() {
       data-testid={ `${i}-ingredient-step` }
       key={ i }
     >
+      <input
+        type="checkbox"
+        // onChange={ }
+      />
       { `${drink[ingredient]} - ${drink[listChavesMesure[i]]}` }
     </p>
   );
