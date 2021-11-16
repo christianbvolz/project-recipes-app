@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { detailDrink } from '../services/DetailFecht';
 import { recommendedMeal } from '../services/recommendedFech';
 import CarrouselRender from './Carousel';
+import '../Style/Btn-Recipe.css';
 
 function DetailDrink() {
   const [drink, setDrink] = useState({});
@@ -57,7 +58,14 @@ function DetailDrink() {
         { listChaves.map((ingredient, i) => returnIngredien(ingredient, i)) }
         <p data-testid="instructions">{ drink.strInstructions }</p>
         {recommended.meals ? <CarrouselRender recommendR={ recommendR } /> : null }
-        <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
+        <button
+          className="iniciar-Recipe-btn"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Iniciar receita
+
+        </button>
       </>
     );
   }

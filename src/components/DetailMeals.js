@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { detailMeal } from '../services/DetailFecht';
 import { recommendedDrink } from '../services/recommendedFech';
 import CarrouselRender from './Carousel';
+import '../Style/Btn-Recipe.css';
 
 function Detailmeals() {
   const [meal, setDetail] = useState({});
@@ -69,7 +70,13 @@ function Detailmeals() {
         />
         { recommended
           ? <CarrouselRender recommendMeal={ recommendedRec } /> : null }
-        <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
+        <button
+          className="iniciar-Recipe-btn"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Iniciar receita
+        </button>
       </>
     );
   }

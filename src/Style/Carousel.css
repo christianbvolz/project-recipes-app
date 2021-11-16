@@ -4,6 +4,14 @@
   justify-content: center;
 }
 
+.display-none {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
 .img-card {
   height: 400px;
   width: 400px;

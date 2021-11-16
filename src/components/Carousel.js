@@ -1,20 +1,47 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import '../Style/Carousel.css';
 
 function CarrouselRender({ recommendMeal, recommendR }) {
-  const [position, setPosition] = useState(0);
+  const [position, setPosition] = useState(1);
   const chaveName = recommendR !== undefined ? 'strMeal' : 'strDrink';
   const list = recommendR !== undefined ? recommendR : recommendMeal;
   const img = recommendMeal !== undefined ? 'strDrinkThumb' : 'strMealThumb';
 
-  const maxPosition = 5;
+  console.log(recommendMeal);
+
+  const maxPosition = 6;
   const decrementPosition = -1;
+  const notVisible = 'display-none';
+  const visible = 'visible';
 
   const positionControl = (i) => {
     if (position + i >= 0 && position + i < maxPosition) {
       setPosition(position + i);
     }
   };
+
+  console.log(position);
+
+  const classCardRender = (index) => {
+    if (position - 1 === index || position === index) return true;
+    return false;
+  };
+
+  const constructorCard = (item, index) => (
+    <div
+      key={ index }
+      className={ classCardRender(index) ? visible : notVisible }
+      data-testid={ `${index}-recomendation-card` }
+    >
+      <img
+        className="img-card"
+        src={ item[img] }
+        alt={ item[chaveName] }
+      />
+      <p data-testid={ `${index}-recomendation-title` }>{ item[chaveName] }</p>
+    </div>
+  );
 
   if (list[0]) {
     return (
@@ -23,40 +50,12 @@ function CarrouselRender({ recommendMeal, recommendR }) {
           onClick={ () => positionControl(decrementPosition) }
           type="button"
         >
-          next
+          { '<' }
         </button>
-        <div data-testid={ `${position}-recomendation-card` }>
-          <img
-            data-testid={ `${position}-recomendation-card` }
-            className="img-card"
-            src={ list[position][img] }
-            alt={ list[position][chaveName] }
-          />
-          <p
-            data-testid={ `${position}-recomendation-title` }
-          >
-            { list[position][chaveName] }
-
-          </p>
-        </div>
-
-        <div data-testid={ `${position + 1}-recomendation-card` }>
-          <img
-            data-testid={ `${position + 1}-recomendation-card` }
-            className="img-card"
-            src={ list[(position + 1)][img] }
-            alt={ list[(position + 1)][chaveName] }
-          />
-          <p
-            data-testid={ `${position + 1}-recomendation-title` }
-          >
-            { list[(position + 1)][chaveName] }
-
-          </p>
-        </div>
+        { list.map((item, index) => constructorCard(item, index))}
 
         <div />
-        <button onClick={ () => positionControl(1) } type="button">next</button>
+        <button onClick={ () => positionControl(1) } type="button">{ '>' }</button>
       </div>
     );
   }
@@ -64,5 +63,10 @@ function CarrouselRender({ recommendMeal, recommendR }) {
     <p>carregando</p>
   );
 }
+
+CarrouselRender.propTypes = {
+  recommendMeal: PropTypes.arrayOf(PropTypes.any).isRequired,
+  recommendR: PropTypes.arrayOf(PropTypes.any).isRequired,
+};
 
 export default CarrouselRender;
