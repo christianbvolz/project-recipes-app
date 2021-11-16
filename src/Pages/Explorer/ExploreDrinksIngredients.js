@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
+import allContext from '../../Context/context';
 import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
-import { fetchApiIngredientDrinks } from '../../services/fetchApi';
+import { fetchApiIngredientDrinks, fetchDrinkIng } from '../../services/fetchApi';
 
 function ExploreDrinksIngredient() {
   const INGREDIENTS_MAX = 12;
   const [ingredients, setIngredients] = useState([]);
+  const { setRecipesDrinks } = useContext(allContext);
 
   const getIngredients = async () => {
     const { drinks } = await fetchApiIngredientDrinks();
@@ -16,6 +19,12 @@ function ExploreDrinksIngredient() {
     getIngredients();
   }, []);
 
+  const getDrinkIng = async (strIngredient1) => {
+    const data = await fetchDrinkIng(strIngredient1);
+    const newData = data;
+    setRecipesDrinks(newData);
+  };
+
   return (
     <div>
       <p>Explore Drinks Ingredients</p>
@@ -24,9 +33,9 @@ function ExploreDrinksIngredient() {
         ingredients.map(({ strIngredient1 }, index) => {
           if (index < INGREDIENTS_MAX) {
             return (
-              <button
-                type="button"
-                key={ index }
+              <Link
+                to="/bebidas"
+                onClick={ () => getDrinkIng(strIngredient1) }
               >
                 <div key={ index } data-testid={ `${index}-ingredient-card` }>
                   <h2 data-testid={ `${index}-card-name` }>{strIngredient1}</h2>
@@ -36,7 +45,7 @@ function ExploreDrinksIngredient() {
                     alt={ strIngredient1 }
                   />
                 </div>
-              </button>
+              </Link>
             );
           }
           return null;

@@ -94,3 +94,15 @@ export const fetchApiIngredientDrinks = async () => {
   const response = await fetch(url).then((res) => res.json());
   return response;
 };
+
+export const fetchMealIng = async (strIngredient) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${strIngredient}`;
+  const response = await fetch(url).then((res) => res.json());
+  return response;
+};
+
+export const fetchDrinkIng = async (strIngredient1) => {
+  const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${strIngredient1}`;
+  const response = await fetch(url).then((res) => res.json());
+  return response;
+};

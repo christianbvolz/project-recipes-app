@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
+import allContext from '../../Context/context';
 import HeaderWithoutSearch from '../../components/HeaderNoSearchInput';
-import { fetchApiIngredientMeals } from '../../services/fetchApi';
+import { fetchApiIngredientMeals, fetchMealIng } from '../../services/fetchApi';
 
 function ExploreFoodIngredient() {
   const INGREDIENTS_MAX = 12;
   const [ingredients, setIngredients] = useState([]);
+  const { setRecipesMeals } = useContext(allContext);
 
   const getIngredients = async () => {
     const { meals } = await fetchApiIngredientMeals();
@@ -16,6 +19,12 @@ function ExploreFoodIngredient() {
     getIngredients();
   }, []);
 
+  const getMealIng = async (strIngredient) => {
+    const data = await fetchMealIng(strIngredient);
+    const newData = data;
+    setRecipesMeals(newData);
+  };
+
   return (
     <div>
       <p>Explore Food Ingredients</p>
@@ -24,9 +33,9 @@ function ExploreFoodIngredient() {
         ingredients.map(({ strIngredient }, index) => {
           if (index < INGREDIENTS_MAX) {
             return (
-              <button
-                type="button"
-                key={ index }
+              <Link
+                to="/comidas"
+                onClick={ () => getMealIng(strIngredient) }
               >
                 <div key={ index } data-testid={ `${index}-ingredient-card` }>
                   <h2 data-testid={ `${index}-card-name` }>{strIngredient}</h2>
@@ -36,7 +45,7 @@ function ExploreFoodIngredient() {
                     alt={ strIngredient }
                   />
                 </div>
-              </button>
+              </Link>
             );
           }
           return null;
