@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { detailDrink } from '../services/DetailFecht';
-import { recommendedDrink } from '../services/recommendedFech';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { detailDrink } from '../../services/DetailFecht';
 
-function DetailDrink() {
+function ProgressDrinksRecipes() {
   const [drink, setDrink] = useState({});
-  const [recommended, setRecommended] = useState([]);
-  const { idDrink } = useParams();
+  const { id } = useParams();
+  console.log(drink);
 
   useEffect(() => {
     const fetch = async () => {
-      setDrink(await detailDrink(idDrink));
-      setRecommended(await recommendedDrink());
+      setDrink(await detailDrink(id));
     };
     fetch();
-  }, [idDrink]);
-
-  const sliceItens = 6;
+  }, [id]);
 
   const listIngredients = Object.keys(drink)
     .filter((item) => item.match(/strIngredient\d{1,2}/));
 
-  const listChaves = listIngredients.filter((item) => drink[item] !== null);
+  const listChaves = listIngredients
+    .filter((item) => drink[item] !== null && drink[item] !== '');
 
   const listMeasure = Object.keys(drink)
     .filter((item) => item.match(/strMeasure\d{1,2}/));
@@ -31,19 +28,10 @@ function DetailDrink() {
 
   const returnIngredien = (ingredient, i) => (
     <p
-      data-testid={ `${i}-ingredient-name-and-measure` }
+      data-testid={ `${i}-ingredient-step` }
       key={ i }
     >
       { `${drink[ingredient]} - ${drink[listChavesMesure[i]]}` }
-    </p>
-  );
-
-  const carousel = (item, index) => (
-    <p
-      key={ index }
-      data-testid={ `${index}-recomendation-card` }
-    >
-      desenvolver recomendado
     </p>
   );
 
@@ -63,11 +51,12 @@ function DetailDrink() {
         <h3 data-testid="recipe-category">Ingredientes</h3>
         { listChaves.map((ingredient, i) => returnIngredien(ingredient, i)) }
         <p data-testid="instructions">{ drink.strInstructions }</p>
-        {recommended ? recommended.slice(0, sliceItens)
-          .map((item, index) => carousel(item, index)) : null }
-        <Link to={ `/bebidas/${idDrink}/in-progress` }>
-          <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
-        </Link>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+        >
+          Finalizar Receita
+        </button>
       </>
     );
   }
@@ -76,4 +65,4 @@ function DetailDrink() {
   );
 }
 
-export default DetailDrink;
+export default ProgressDrinksRecipes;

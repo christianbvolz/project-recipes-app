@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { detailMeal } from '../services/DetailFecht';
-import { recommendedMeal } from '../services/recommendedFech';
+import { useParams } from 'react-router-dom';
+import { detailMeal } from '../../services/DetailFecht';
 
-function Detailmeals() {
-  const [meal, setDetail] = useState({});
-  const [recommended, setRecommended] = useState([]);
-  const { idMeal } = useParams();
-
-  const sliceItens = 6;
+function ProgressMealsRecipes() {
+  const [meal, setRecipe] = useState({});
+  const { id } = useParams();
 
   useEffect(() => {
     const fetch = async () => {
-      setDetail(await detailMeal(idMeal));
-      setRecommended(await recommendedMeal());
+      const resp = await detailMeal(id);
+      console.log(resp);
+      setRecipe(await detailMeal(id));
     };
     fetch();
-  }, [idMeal]);
+  }, [id]);
 
   const listIngredients = Object.keys(meal)
     .filter((item) => item.match(/strIngredient\d{1,2}/));
@@ -32,25 +29,14 @@ function Detailmeals() {
 
   const returnIngredien = (ingredient, i) => (
     <p
-      data-testid={ `${i}-ingredient-name-and-measure` }
+      data-testid={ `${i}-ingredient-step` }
       key={ i }
     >
       { `${meal[ingredient]} - ${meal[listChavesMesure[i]]}` }
     </p>
-
-  );
-
-  const carousel = (item, index) => (
-    <p
-      key={ index }
-      data-testid={ `${index}-recomendation-card` }
-    >
-      desenvolver recomendado
-    </p>
   );
 
   if (meal.idMeal) {
-    const idYouTube = meal.strYoutube.split('=');
     return (
       <>
         <img
@@ -65,20 +51,12 @@ function Detailmeals() {
         <h3>Ingredientes</h3>
         { listChaves.map((ingredient, i) => returnIngredien(ingredient, i)) }
         <p data-testid="instructions">{ meal.strInstructions }</p>
-        <iframe
-          data-testid="video"
-          width="560"
-          height="315"
-          src={ `https://www.youtube.com/embed/${idYouTube[1]}` }
-          title={ meal.idMeal }
-          frameBorder="0"
-          allowFullScreen
-        />
-        { recommended.meals ? recommended.meals.slice(0, sliceItens)
-          .map((item, index) => carousel(item, index)) : null }
-        <Link to={ `/comidas/${idMeal}/in-progress` }>
-          <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
-        </Link>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+        >
+          Finalizar Receita
+        </button>
       </>
     );
   }
@@ -87,4 +65,4 @@ function Detailmeals() {
   );
 }
 
-export default Detailmeals;
+export default ProgressMealsRecipes;
