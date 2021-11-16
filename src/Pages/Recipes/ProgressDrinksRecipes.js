@@ -4,6 +4,7 @@ import { detailDrink } from '../../services/DetailFecht';
 
 function ProgressDrinksRecipes() {
   const [drink, setDrink] = useState({});
+  const [UsedIngredients, setUsedIngredients] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -11,6 +12,24 @@ function ProgressDrinksRecipes() {
       setDrink(await detailDrink(id));
     };
     fetch();
+    if (!localStorage.getItem('inProgressRecipes')) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        drinks: {},
+        meals: {},
+      }));
+    }
+    const { drinks } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!drinks[id]) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...JSON.parse(localStorage.getItem('inProgressRecipes')),
+        drinks: {
+          ...drinks,
+          [id]: [],
+        },
+      }));
+    } else {
+      setUsedIngredients(drinks[id]);
+    }
   }, [id]);
 
   const listIngredients = Object.keys(drink)
@@ -29,12 +48,37 @@ function ProgressDrinksRecipes() {
     <p
       data-testid={ `${i}-ingredient-step` }
       key={ i }
+      style={ UsedIngredients.includes(drink[ingredient])
+        ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
+        : { textDecoration: '' } }
     >
       <input
         type="checkbox"
-        onChange={ ({ target: { parentElement } }) => {
-          parentElement.style.textDecoration = (parentElement.style.textDecoration === '')
-            ? 'line-through solid rgb(0, 0, 0)' : '';
+        checked={ UsedIngredients.includes(drink[ingredient]) }
+        onChange={ () => {
+          const recipesInProgress = localStorage.getItem('inProgressRecipes');
+          const { drinks } = JSON.parse(recipesInProgress);
+          if (!UsedIngredients.includes(drink[ingredient])) {
+            localStorage.setItem('inProgressRecipes', JSON.stringify({
+              ...JSON.parse(recipesInProgress),
+              drinks: {
+                ...drinks,
+                [id]: [...UsedIngredients, drink[ingredient]],
+              },
+            }));
+            setUsedIngredients([...UsedIngredients, drink[ingredient]]);
+          } else {
+            localStorage.setItem('inProgressRecipes', JSON.stringify({
+              ...JSON.parse(recipesInProgress),
+              drinks: {
+                ...drinks,
+                [id]: [...UsedIngredients
+                  .filter((item) => item !== drink[ingredient])],
+              },
+            }));
+            setUsedIngredients([...UsedIngredients
+              .filter((item) => item !== drink[ingredient])]);
+          }
         } }
       />
       { `${drink[ingredient]} - ${drink[listChavesMesure[i]]}` }

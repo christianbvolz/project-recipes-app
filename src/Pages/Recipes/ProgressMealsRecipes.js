@@ -4,6 +4,7 @@ import { detailMeal } from '../../services/DetailFecht';
 
 function ProgressMealsRecipes() {
   const [meal, setRecipe] = useState({});
+  const [UsedIngredients, setUsedIngredients] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -11,6 +12,25 @@ function ProgressMealsRecipes() {
       setRecipe(await detailMeal(id));
     };
     fetch();
+    const recipesInProgress = localStorage.getItem('inProgressRecipes');
+    if (!recipesInProgress) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        drinks: {},
+        meals: {},
+      }));
+    }
+    const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!meals[id]) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...JSON.parse(recipesInProgress),
+        meals: {
+          ...meals,
+          [id]: [],
+        },
+      }));
+    } else {
+      setUsedIngredients(meals[id]);
+    }
   }, [id]);
 
   const listIngredients = Object.keys(meal)
@@ -29,10 +49,38 @@ function ProgressMealsRecipes() {
     <p
       data-testid={ `${i}-ingredient-step` }
       key={ i }
+      style={ UsedIngredients.includes(meal[ingredient])
+        ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
+        : { textDecoration: '' } }
     >
       <input
         type="checkbox"
-        // onChange={ }
+        checked={ UsedIngredients.includes(meal[ingredient]) }
+        onChange={ () => {
+          const recipesInProgress = localStorage.getItem('inProgressRecipes');
+          const { meals } = JSON.parse(recipesInProgress);
+          if (!UsedIngredients.includes(meal[ingredient])) {
+            localStorage.setItem('inProgressRecipes', JSON.stringify({
+              ...JSON.parse(recipesInProgress),
+              meals: {
+                ...meals,
+                [id]: [...UsedIngredients, meal[ingredient]],
+              },
+            }));
+            setUsedIngredients([...UsedIngredients, meal[ingredient]]);
+          } else {
+            localStorage.setItem('inProgressRecipes', JSON.stringify({
+              ...JSON.parse(recipesInProgress),
+              meals: {
+                ...meals,
+                [id]: [...UsedIngredients
+                  .filter((item) => item !== meal[ingredient])],
+              },
+            }));
+            setUsedIngredients([...UsedIngredients
+              .filter((item) => item !== meal[ingredient])]);
+          }
+        } }
       />
       { `${meal[ingredient]} - ${meal[listChavesMesure[i]]}` }
     </p>
