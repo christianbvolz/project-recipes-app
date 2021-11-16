@@ -32,7 +32,10 @@ function ProgressDrinksRecipes() {
     >
       <input
         type="checkbox"
-        // onChange={ }
+        onChange={ ({ target: { parentElement } }) => {
+          parentElement.style.textDecoration = (parentElement.style.textDecoration === '')
+            ? 'line-through solid rgb(0, 0, 0)' : '';
+        } }
       />
       { `${drink[ingredient]} - ${drink[listChavesMesure[i]]}` }
     </p>
