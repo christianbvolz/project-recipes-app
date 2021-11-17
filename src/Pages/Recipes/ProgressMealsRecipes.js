@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { detailMeal } from '../../services/DetailFecht';
 
 function ProgressMealsRecipes() {
   const [meal, setRecipe] = useState({});
   const [UsedIngredients, setUsedIngredients] = useState([]);
   const { id } = useParams();
+  const history = useHistory();
 
   const listIngredients = Object.keys(meal)
     .filter((item) => item.match(/strIngredient\d{1,2}/));
@@ -84,6 +85,7 @@ function ProgressMealsRecipes() {
   );
 
   if (meal.idMeal) {
+    console.log(UsedIngredients.length, listChaves.length);
     return (
       <>
         <img
@@ -103,6 +105,8 @@ function ProgressMealsRecipes() {
         <button
           type="button"
           data-testid="finish-recipe-btn"
+          disabled={ UsedIngredients.length !== listChaves.length }
+          onClick={ () => history.push('/receitas-feitas') }
         >
           Finalizar Receita
         </button>
