@@ -15,7 +15,8 @@ import ExploreFood from './Pages/Explorer/ExploreFood';
 import DoneRecipes from './Pages/Recipes/DoneRecipes';
 import FavoriteRecipes from './Pages/Recipes/FavoritesRecipes';
 import NotFound from './Pages/Recipes/NotFound';
-import ProgressRecipes from './Pages/Recipes/ProgressRecipes';
+import ProgressMealsRecipes from './Pages/Recipes/ProgressMealsRecipes';
+import ProgressDrinksRecipes from './Pages/Recipes/ProgressDrinksRecipes';
 import Profile from './Pages/Profile/Profile';
 
 function App() {
@@ -28,8 +29,8 @@ function App() {
           <Route exact path="/bebidas" component={ Drinks } />
           <Route exact path="/comidas/:idMeal" component={ FoodDetails } />
           <Route exact path="/bebidas/:idDrink" component={ DrinkDetails } />
-          <Route exact path="/comidas/:id/in-progress" component={ ProgressRecipes } />
-          <Route exact path="/bebidas/:id/in-progress" component={ ProgressRecipes } />
+          <Route path="/comidas/:id/in-progress" component={ ProgressMealsRecipes } />
+          <Route path="/bebidas/:id/in-progress" component={ ProgressDrinksRecipes } />
           <Route exact path="/explorar" component={ Explore } />
           <Route exact path="/explorar/comidas" component={ ExploreFood } />
           <Route exact path="/explorar/bebidas" component={ ExploreDrink } />
