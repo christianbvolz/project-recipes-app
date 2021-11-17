@@ -1,6 +1,6 @@
 .containner-carousel {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
 }
 
@@ -20,4 +20,4 @@
 .containner-carousel > button {
   height: 200px;
   margin: 10px;
-};
+}

@@ -88,7 +88,6 @@ function Detailmeals() {
         />
         { recommended
           ? <CarrouselRender recommendMeal={ recommendedRec } /> : null }
-
         <button
           onClick={ () => startRecipe() }
           className="iniciar-Recipe-btn"
@@ -97,7 +96,6 @@ function Detailmeals() {
         >
           Iniciar receita
         </button>
-
       </>
     );
   }
