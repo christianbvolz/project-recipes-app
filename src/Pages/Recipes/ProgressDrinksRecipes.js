@@ -7,6 +7,18 @@ function ProgressDrinksRecipes() {
   const [UsedIngredients, setUsedIngredients] = useState([]);
   const { id } = useParams();
 
+  const listIngredients = Object.keys(drink)
+    .filter((item) => item.match(/strIngredient\d{1,2}/));
+
+  const listChaves = listIngredients
+    .filter((item) => drink[item] !== null && drink[item] !== '');
+
+  const listMeasure = Object.keys(drink)
+    .filter((item) => item.match(/strMeasure\d{1,2}/));
+
+  const listChavesMesure = listMeasure
+    .filter((item) => drink[item] !== null && drink[item] !== '');
+
   useEffect(() => {
     const fetch = async () => {
       setDrink(await detailDrink(id));
@@ -32,17 +44,17 @@ function ProgressDrinksRecipes() {
     }
   }, [id]);
 
-  const listIngredients = Object.keys(drink)
-    .filter((item) => item.match(/strIngredient\d{1,2}/));
-
-  const listChaves = listIngredients
-    .filter((item) => drink[item] !== null && drink[item] !== '');
-
-  const listMeasure = Object.keys(drink)
-    .filter((item) => item.match(/strMeasure\d{1,2}/));
-
-  const listChavesMesure = listMeasure
-    .filter((item) => drink[item] !== null && drink[item] !== '');
+  useEffect(() => {
+    const getRecipesInProgress = localStorage.getItem('inProgressRecipes');
+    const recipesInProgress = JSON.parse(getRecipesInProgress);
+    localStorage.setItem('inProgressRecipes', JSON.stringify({
+      ...recipesInProgress,
+      drinks: {
+        ...recipesInProgress.drinks,
+        [id]: UsedIngredients,
+      },
+    }));
+  }, [UsedIngredients, id]);
 
   const returnIngredien = (ingredient, i) => (
     <p
@@ -52,36 +64,22 @@ function ProgressDrinksRecipes() {
         ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
         : { textDecoration: '' } }
     >
-      <input
-        type="checkbox"
-        checked={ UsedIngredients.includes(drink[ingredient]) }
-        onChange={ () => {
-          const recipesInProgress = localStorage.getItem('inProgressRecipes');
-          const { drinks } = JSON.parse(recipesInProgress);
-          if (!UsedIngredients.includes(drink[ingredient])) {
-            localStorage.setItem('inProgressRecipes', JSON.stringify({
-              ...JSON.parse(recipesInProgress),
-              drinks: {
-                ...drinks,
-                [id]: [...UsedIngredients, drink[ingredient]],
-              },
-            }));
-            setUsedIngredients([...UsedIngredients, drink[ingredient]]);
-          } else {
-            localStorage.setItem('inProgressRecipes', JSON.stringify({
-              ...JSON.parse(recipesInProgress),
-              drinks: {
-                ...drinks,
-                [id]: [...UsedIngredients
-                  .filter((item) => item !== drink[ingredient])],
-              },
-            }));
-            setUsedIngredients([...UsedIngredients
-              .filter((item) => item !== drink[ingredient])]);
-          }
-        } }
-      />
-      { `${drink[ingredient]} - ${drink[listChavesMesure[i]]}` }
+      <label htmlFor={ `${i}-ingredient-checkbox` }>
+        <input
+          type="checkbox"
+          id={ `${i}-ingredient-checkbox` }
+          checked={ UsedIngredients.includes(drink[ingredient]) }
+          onChange={ () => {
+            if (!UsedIngredients.includes(drink[ingredient])) {
+              setUsedIngredients([...UsedIngredients, drink[ingredient]]);
+            } else {
+              setUsedIngredients([...UsedIngredients
+                .filter((item) => item !== drink[ingredient])]);
+            }
+          } }
+        />
+        { `${drink[ingredient]} - ${drink[listChavesMesure[i]] || ''}` }
+      </label>
     </p>
   );
 
@@ -98,8 +96,10 @@ function ProgressDrinksRecipes() {
         <button type="button" data-testid="favorite-btn">Favoritar</button>
         <h3 data-testid="recipe-category">{ drink.strCategory }</h3>
         <p data-testid="recipe-category">{ drink.strAlcoholic }</p>
-        <h3 data-testid="recipe-category">Ingredientes</h3>
-        { listChaves.map((ingredient, i) => returnIngredien(ingredient, i)) }
+        <div>
+          <h3 data-testid="recipe-category">Ingredientes</h3>
+          { listChaves.map((ingredient, i) => returnIngredien(ingredient, i)) }
+        </div>
         <p data-testid="instructions">{ drink.strInstructions }</p>
         <button
           type="button"
