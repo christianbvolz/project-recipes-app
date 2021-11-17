@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { detailMeal } from '../services/DetailFecht';
 import { recommendedMeal } from '../services/recommendedFech';
 
@@ -76,7 +76,9 @@ function Detailmeals() {
         />
         { recommended.meals ? recommended.meals.slice(0, sliceItens)
           .map((item, index) => carousel(item, index)) : null }
-        <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
+        <Link to={ `/comidas/${idMeal}/in-progress` }>
+          <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
+        </Link>
       </>
     );
   }

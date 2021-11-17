@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { detailDrink } from '../services/DetailFecht';
 import { recommendedDrink } from '../services/recommendedFech';
 
@@ -65,7 +65,9 @@ function DetailDrink() {
         <p data-testid="instructions">{ drink.strInstructions }</p>
         {recommended ? recommended.slice(0, sliceItens)
           .map((item, index) => carousel(item, index)) : null }
-        <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
+        <Link to={ `/bebidas/${idDrink}/in-progress` }>
+          <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
+        </Link>
       </>
     );
   }
