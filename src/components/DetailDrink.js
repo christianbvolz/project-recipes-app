@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { detailDrink } from '../services/DetailFecht';
 import { recommendedMeal } from '../services/recommendedFech';
 import CarrouselRender from './Carousel';
 import '../Style/Btn-Recipe.css';
 
 function DetailDrink() {
+  const [btnCompartilhar, setBtnCompartilhar] = useState('compartilhar');
   const [drink, setDrink] = useState({});
   const [recommended, setRecommended] = useState([]);
   const { idDrink } = useParams();
@@ -18,7 +19,19 @@ function DetailDrink() {
     fetch();
   }, [idDrink]);
 
+  const history = useHistory();
+
   const sliceItens = 6;
+
+  const StartRecipe = () => {
+    history.push(`/bebidas/${idDrink}/in-progress`);
+  };
+
+  const clipboard = async () => {
+    const urlRecommendation = window.location.href;
+    await navigator.clipboard.writeText(urlRecommendation);
+    setBtnCompartilhar('Link copiado!');
+  };
 
   const listIngredients = Object.keys(drink)
     .filter((item) => item.match(/strIngredient\d{1,2}/));
@@ -50,7 +63,13 @@ function DetailDrink() {
           alt="img food"
         />
         <p data-testid="recipe-title">{ drink.strDrink }</p>
-        <button type="button" data-testid="share-btn">compartilhar</button>
+        <button
+          onClick={ () => clipboard() }
+          type="button"
+          data-testid="share-btn"
+        >
+          { btnCompartilhar }
+        </button>
         <button type="button" data-testid="favorite-btn">Favoritar</button>
         <h3 data-testid="recipe-category">{ drink.strCategory }</h3>
         <p data-testid="recipe-category">{ drink.strAlcoholic }</p>
@@ -59,6 +78,7 @@ function DetailDrink() {
         <p data-testid="instructions">{ drink.strInstructions }</p>
         {recommended.meals ? <CarrouselRender recommendR={ recommendR } /> : null }
         <button
+          onClick={ () => StartRecipe() }
           className="iniciar-Recipe-btn"
           type="button"
           data-testid="start-recipe-btn"

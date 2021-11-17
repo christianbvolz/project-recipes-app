@@ -8,8 +8,6 @@ function CarrouselRender({ recommendMeal, recommendR }) {
   const list = recommendR !== undefined ? recommendR : recommendMeal;
   const img = recommendMeal !== undefined ? 'strDrinkThumb' : 'strMealThumb';
 
-  console.log(recommendMeal);
-
   const maxPosition = 6;
   const decrementPosition = -1;
   const notVisible = 'display-none';
@@ -20,8 +18,6 @@ function CarrouselRender({ recommendMeal, recommendR }) {
       setPosition(position + i);
     }
   };
-
-  console.log(position);
 
   const classCardRender = (index) => {
     if (position - 1 === index || position === index) return true;

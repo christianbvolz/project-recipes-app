@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { detailMeal } from '../services/DetailFecht';
 import { recommendedDrink } from '../services/recommendedFech';
 import CarrouselRender from './Carousel';
 import '../Style/Btn-Recipe.css';
 
 function Detailmeals() {
+  const [btnCompartilhar, setBtnCompartilhar] = useState('compartilhar');
   const [meal, setDetail] = useState({});
   const [recommended, setRecommended] = useState([]);
   const { idMeal } = useParams();
 
   const sliceItens = 6;
+  const history = useHistory();
 
   useEffect(() => {
     const fetch = async () => {
@@ -19,6 +21,16 @@ function Detailmeals() {
     };
     fetch();
   }, [idMeal]);
+
+  const startRecipe = () => {
+    history.push(`/comidas/${idMeal}/in-progress`);
+  };
+
+  const clipboard = async () => {
+    const urlRecommendetion = window.location.href;
+    await navigator.clipboard.writeText(urlRecommendetion);
+    setBtnCompartilhar('Link copiado!');
+  };
 
   const listIngredients = Object.keys(meal)
     .filter((item) => item.match(/strIngredient\d{1,2}/));
@@ -53,7 +65,13 @@ function Detailmeals() {
           alt="img food"
         />
         <h3 data-testid="recipe-title">{ meal.strMeal }</h3>
-        <button type="button" data-testid="share-btn">compartilhar</button>
+        <button
+          onClick={ () => clipboard() }
+          type="button"
+          data-testid="share-btn"
+        >
+          { btnCompartilhar }
+        </button>
         <button type="button" data-testid="favorite-btn">Favoritar</button>
         <h3 data-testid="recipe-category">{ meal.strCategory }</h3>
         <h3>Ingredientes</h3>
@@ -70,13 +88,16 @@ function Detailmeals() {
         />
         { recommended
           ? <CarrouselRender recommendMeal={ recommendedRec } /> : null }
+
         <button
+          onClick={ () => startRecipe() }
           className="iniciar-Recipe-btn"
           type="button"
           data-testid="start-recipe-btn"
         >
           Iniciar receita
         </button>
+
       </>
     );
   }
