@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import copy from 'clipboard-copy';
 import { useParams, useHistory } from 'react-router-dom';
 import { detailMeal } from '../services/DetailFecht';
 import { recommendedDrink } from '../services/recommendedFech';
@@ -26,9 +27,9 @@ function Detailmeals() {
     history.push(`/comidas/${idMeal}/in-progress`);
   };
 
-  const clipboard = async () => {
+  const clipboard = () => {
     const urlRecommendetion = window.location.href;
-    await navigator.clipboard.writeText(urlRecommendetion);
+    copy(urlRecommendetion);
     setBtnCompartilhar('Link copiado!');
   };
 
