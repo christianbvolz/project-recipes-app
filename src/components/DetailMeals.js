@@ -1,22 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import copy from 'clipboard-copy';
+import { useParams, useHistory } from 'react-router-dom';
 import { detailMeal } from '../services/DetailFecht';
-import { recommendedMeal } from '../services/recommendedFech';
+import { recommendedDrink } from '../services/recommendedFech';
+import CarrouselRender from './Carousel';
+import '../Style/Btn-Recipe.css';
 
 function Detailmeals() {
+  const [btnCompartilhar, setBtnCompartilhar] = useState('compartilhar');
   const [meal, setDetail] = useState({});
   const [recommended, setRecommended] = useState([]);
   const { idMeal } = useParams();
 
   const sliceItens = 6;
+  const history = useHistory();
 
   useEffect(() => {
     const fetch = async () => {
       setDetail(await detailMeal(idMeal));
-      setRecommended(await recommendedMeal());
+      setRecommended(await recommendedDrink());
     };
     fetch();
   }, [idMeal]);
+
+  const startRecipe = () => {
+    history.push(`/comidas/${idMeal}/in-progress`);
+  };
+
+  const clipboard = () => {
+    const urlRecommendetion = window.location.href;
+    copy(urlRecommendetion);
+    setBtnCompartilhar('Link copiado!');
+  };
 
   const listIngredients = Object.keys(meal)
     .filter((item) => item.match(/strIngredient\d{1,2}/));
@@ -40,17 +55,9 @@ function Detailmeals() {
 
   );
 
-  const carousel = (item, index) => (
-    <p
-      key={ index }
-      data-testid={ `${index}-recomendation-card` }
-    >
-      desenvolver recomendado
-    </p>
-  );
-
   if (meal.idMeal) {
     const idYouTube = meal.strYoutube.split('=');
+    const recommendedRec = recommended ? recommended.slice(0, sliceItens) : null;
     return (
       <>
         <img
@@ -59,7 +66,13 @@ function Detailmeals() {
           alt="img food"
         />
         <h3 data-testid="recipe-title">{ meal.strMeal }</h3>
-        <button type="button" data-testid="share-btn">compartilhar</button>
+        <button
+          onClick={ () => clipboard() }
+          type="button"
+          data-testid="share-btn"
+        >
+          { btnCompartilhar }
+        </button>
         <button type="button" data-testid="favorite-btn">Favoritar</button>
         <h3 data-testid="recipe-category">{ meal.strCategory }</h3>
         <h3>Ingredientes</h3>
@@ -74,11 +87,16 @@ function Detailmeals() {
           frameBorder="0"
           allowFullScreen
         />
-        { recommended.meals ? recommended.meals.slice(0, sliceItens)
-          .map((item, index) => carousel(item, index)) : null }
-        <Link to={ `/comidas/${idMeal}/in-progress` }>
-          <button type="button" data-testid="start-recipe-btn">Iniciar receita</button>
-        </Link>
+        { recommended
+          ? <CarrouselRender recommendMeal={ recommendedRec } /> : null }
+        <button
+          onClick={ () => startRecipe() }
+          className="iniciar-Recipe-btn"
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          Iniciar receita
+        </button>
       </>
     );
   }
