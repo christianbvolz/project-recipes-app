@@ -7,6 +7,7 @@ import CarrouselRender from './Carousel';
 import '../Style/Btn-Recipe.css';
 
 function DetailDrink() {
+  const [btnDrink, setBtnDrink] = useState('Iniciar receita');
   const [btnCompartilhar, setBtnCompartilhar] = useState('compartilhar');
   const [drink, setDrink] = useState({});
   const [recommended, setRecommended] = useState([]);
@@ -19,6 +20,26 @@ function DetailDrink() {
     };
     fetch();
   }, [idDrink]);
+
+  useEffect(() => {
+    const initial = !localStorage.getItem('inProgressRecipes');
+    const checkStorage = () => {
+      if (initial) {
+        localStorage.setItem('inProgressRecipes', JSON.stringify({
+          cocktails: {},
+          meals: {},
+        }));
+      }
+    };
+
+    checkStorage();
+  }, []);
+
+  useEffect(() => {
+    const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const exist = Object.keys(cocktails).some((el) => el === idDrink);
+    if (exist) setBtnDrink('Continuar Receita');
+  }, []);
 
   const history = useHistory();
 
@@ -84,7 +105,7 @@ function DetailDrink() {
           type="button"
           data-testid="start-recipe-btn"
         >
-          Iniciar receita
+          { btnDrink }
 
         </button>
       </>

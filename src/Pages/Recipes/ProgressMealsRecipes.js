@@ -27,7 +27,7 @@ function ProgressMealsRecipes() {
     fetch();
     if (!localStorage.getItem('inProgressRecipes')) {
       localStorage.setItem('inProgressRecipes', JSON.stringify({
-        drinks: {},
+        cocktails: {},
         meals: {},
       }));
     }
@@ -85,7 +85,6 @@ function ProgressMealsRecipes() {
   );
 
   if (meal.idMeal) {
-    console.log(UsedIngredients.length, listChaves.length);
     return (
       <>
         <img
