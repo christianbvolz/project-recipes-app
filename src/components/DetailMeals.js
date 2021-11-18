@@ -42,7 +42,7 @@ function Detailmeals() {
     const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const exist = Object.keys(meals).some((el) => el === idMeal);
     if (exist) setBtnRecipe('Continuar Receita');
-  }, []);
+  }, [idMeal]);
 
   const startRecipe = () => {
     history.push(`/comidas/${idMeal}/in-progress`);

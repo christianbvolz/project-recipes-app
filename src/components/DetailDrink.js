@@ -39,7 +39,7 @@ function DetailDrink() {
     const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const exist = Object.keys(cocktails).some((el) => el === idDrink);
     if (exist) setBtnDrink('Continuar Receita');
-  }, []);
+  }, [idDrink]);
 
   const history = useHistory();
 
