@@ -1,4 +1,7 @@
 .iniciar-Recipe-btn {
   bottom: 0%;
+  font-size: 20px;
+  height: 60px;
   position: fixed;
+  width: 400px;
 }

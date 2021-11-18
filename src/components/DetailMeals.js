@@ -8,6 +8,7 @@ import '../Style/Btn-Recipe.css';
 
 function Detailmeals() {
   const [btnCompartilhar, setBtnCompartilhar] = useState('compartilhar');
+  const [btnRecipe, setBtnRecipe] = useState('Iniciar receita');
   const [meal, setDetail] = useState({});
   const [recommended, setRecommended] = useState([]);
   const { idMeal } = useParams();
@@ -22,6 +23,26 @@ function Detailmeals() {
     };
     fetch();
   }, [idMeal]);
+
+  useEffect(() => {
+    const initial = !localStorage.getItem('inProgressRecipes');
+    const checkStorage = () => {
+      if (initial) {
+        localStorage.setItem('inProgressRecipes', JSON.stringify({
+          cocktails: {},
+          meals: {},
+        }));
+      }
+    };
+
+    checkStorage();
+  }, []);
+
+  useEffect(() => {
+    const { meals } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const exist = Object.keys(meals).some((el) => el === idMeal);
+    if (exist) setBtnRecipe('Continuar Receita');
+  }, []);
 
   const startRecipe = () => {
     history.push(`/comidas/${idMeal}/in-progress`);
@@ -95,7 +116,7 @@ function Detailmeals() {
           type="button"
           data-testid="start-recipe-btn"
         >
-          Iniciar receita
+          { btnRecipe }
         </button>
       </>
     );

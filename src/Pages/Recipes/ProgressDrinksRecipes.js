@@ -27,21 +27,21 @@ function ProgressDrinksRecipes() {
     fetch();
     if (!localStorage.getItem('inProgressRecipes')) {
       localStorage.setItem('inProgressRecipes', JSON.stringify({
-        drinks: {},
+        cocktails: {},
         meals: {},
       }));
     }
-    const { drinks } = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (!drinks[id]) {
+    const { cocktails } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!cocktails[id]) {
       localStorage.setItem('inProgressRecipes', JSON.stringify({
         ...JSON.parse(localStorage.getItem('inProgressRecipes')),
-        drinks: {
-          ...drinks,
+        cocktails: {
+          ...cocktails,
           [id]: [],
         },
       }));
     } else {
-      setUsedIngredients(drinks[id]);
+      setUsedIngredients(cocktails[id]);
     }
   }, [id]);
 
@@ -50,8 +50,8 @@ function ProgressDrinksRecipes() {
     const recipesInProgress = JSON.parse(getRecipesInProgress);
     localStorage.setItem('inProgressRecipes', JSON.stringify({
       ...recipesInProgress,
-      drinks: {
-        ...recipesInProgress.drinks,
+      cocktails: {
+        ...recipesInProgress.cocktails,
         [id]: UsedIngredients,
       },
     }));
