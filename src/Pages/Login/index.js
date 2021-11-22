@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import validadorFormat from 'email-format-check';
 import { SetLocalStorage } from '../../services/LocalStorageUser';
+import '../../Style/Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -22,29 +23,32 @@ function Login() {
   };
 
   return (
-    <>
-      <input
-        type="email"
-        data-testid="email-input"
-        placeholder="Email"
-        onChange={ (e) => setEmail(e.target.value) }
-      />
-      <input
-        type="password"
-        data-testid="password-input"
-        placeholder="Password"
-        onChange={ (e) => setPassword(e.target.value) }
-      />
-      <button
-        id="btnLogin"
-        disabled={ !verification() }
-        type="button"
-        data-testid="login-submit-btn"
-        onClick={ login }
-      >
-        Entrar
-      </button>
-    </>
+    <section className="containner-Login">
+      <div className="containner-card">
+        <input
+          type="email"
+          data-testid="email-input"
+          placeholder="Email"
+          onChange={ (e) => setEmail(e.target.value) }
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          placeholder="Password"
+          onChange={ (e) => setPassword(e.target.value) }
+        />
+        <button
+          className
+          id="btnLogin"
+          disabled={ !verification() }
+          type="button"
+          data-testid="login-submit-btn"
+          onClick={ login }
+        >
+          Entrar
+        </button>
+      </div>
+    </section>
   );
 }
 

@@ -5,6 +5,8 @@ import { detailMeal } from '../services/DetailFecht';
 import { recommendedDrink } from '../services/recommendedFech';
 import CarrouselRender from './Carousel';
 import '../Style/Btn-Recipe.css';
+import BtnFavorite from './BtnFavorite';
+import { GetLocalStorage } from '../services/LocalStorageUser';
 
 function Detailmeals() {
   const [btnCompartilhar, setBtnCompartilhar] = useState('compartilhar');
@@ -34,6 +36,10 @@ function Detailmeals() {
         }));
       }
     };
+
+    if (!localStorage.getItem('favoriteRecipes')) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
 
     checkStorage();
   }, []);
@@ -79,6 +85,8 @@ function Detailmeals() {
   if (meal.idMeal) {
     const idYouTube = meal.strYoutube.split('=');
     const recommendedRec = recommended ? recommended.slice(0, sliceItens) : null;
+    const recipesFavorites = GetLocalStorage('favoriteRecipes');
+    const existFavorite = recipesFavorites.some((el) => el.id === meal.idMeal);
     return (
       <>
         <img
@@ -94,7 +102,14 @@ function Detailmeals() {
         >
           { btnCompartilhar }
         </button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
+        <BtnFavorite
+          existFavorite={ existFavorite }
+          image={ meal.strMealThumb }
+          name={ meal.strMeal }
+          meal={ meal }
+          id="idMeal"
+          type="comida"
+        />
         <h3 data-testid="recipe-category">{ meal.strCategory }</h3>
         <h3>Ingredientes</h3>
         { listChaves.map((ingredient, i) => returnIngredien(ingredient, i)) }
